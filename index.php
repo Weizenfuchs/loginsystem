@@ -7,30 +7,30 @@
 
 <section class="main-container">
     <div class="main-wrapper">
-        <h2>Signup</h2>
-
         <?php
-        if(isset($_GET['signup']) && $_GET['signup'] == 'empty')
+        if(isset($_GET['signup']) && $_GET['signup'] == 'success')
         {
             ?>
-            <h1 style="color:red;">Please fill out the missing fields</h1>
+            <h1 style="color:green;">You've been signed up!</h1>
             <?php
-        } else if(isset($_GET['signup']) && $_GET['signup'] == 'usertaken')
-        {
+        } else if(isset($_GET['login']) && $_GET['login'] == 'success') {
             ?>
-            <h1 style="color:red;">The username is already taken</h1>
+            <h1 style="color:green;">You've been logged in!</h1>
+            <?php
+        } else if(isset($_GET['login']) && $_GET['login'] == 'empty') {
+            ?>
+            <h1 style="color:red;">Empty login fields</h1>
+            <?php
+        } else if(isset($_GET['login']) && $_GET['login'] == 'error') {
+            ?>
+            <h1 style="color:red;">Wrong username or password</h1>
+            <?php
+        } else {
+            ?>
+            <h2>No account yet? <br> Sign up now!</h2>
             <?php
         }
         ?>
-
-        <form class="signup-form" action="includes/signup.inc.php" method="POST">
-            <input type="text" name="first" placeholder="Firstname">
-            <input type="text" name="last" placeholder="Lastname">
-            <input type="text" name="email" placeholder="E-mail">
-            <input type="text" name="username" placeholder="Username">
-            <input type="password" name="password" placeholder="Password">
-            <button type="submit" name="submit">Sign up</button>
-        </form>
     </div>
 </section>
 

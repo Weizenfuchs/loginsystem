@@ -22,8 +22,8 @@
             </ul>
             <div class="nav-login">
                 <form action="includes/login.inc.php" method="POST">
-                    <input type="text" name="uid" placeholder="Username/e-mail">
-                    <input type="passworld" name="pwd" placeholder="password">
+                    <input type="text" name="username" placeholder="Username/e-mail">
+                    <input type="password" name="password" placeholder="password">
                     <button type="submit" name="submit">Login</button>
                 </form>
                 <a href="signup.php">Sign up</a>

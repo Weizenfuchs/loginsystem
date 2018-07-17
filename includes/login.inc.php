@@ -6,17 +6,17 @@ session_start();
 if(isset($_POST['submit'])) {
     include 'dbh.inc.php';
 
-    $uid = mysqli_real_escape_string($conn, $_POST['username']);
-    $pwd = mysqli_real_escape_string($conn, $_POST['password']);
+    $username = mysqli_real_escape_string($conn, $_POST['username']);
+    $password = mysqli_real_escape_string($conn, $_POST['password']);
 
     // Error handlers
     // Check if inputs are empty
-    if(empty($uid) || empty($pwd)) {
+    if(empty($username) || empty($password)) {
         header("Location: ../index.php?login=empty");
         exit();
     } else {
         // check if username exists in database
-        $sql = "SELECT * FROM users WHERE user_uid='$uid'";
+        $sql = "SELECT * FROM users WHERE username='$username'";
         $result = mysqli_query($conn, $sql);
         $resultCheck = mysqli_num_rows($result);
         if($resultCheck < 1) { // = no results
@@ -25,7 +25,7 @@ if(isset($_POST['submit'])) {
         } else {
             if($row = mysqli_fetch_assoc($result)) { // Data gets inserted into row
                 // De-hashing the password
-                $hashedPwdCheck = password_verify($pwd, $row['password']); // checking if pwd is in db
+                $hashedPwdCheck = password_verify($password, $row['password']); // checking if password is in db
                 if($hashedPwdCheck == false) {
                     header("Location: ../index.php?login=error");
                     exit();
@@ -35,7 +35,7 @@ if(isset($_POST['submit'])) {
                     $_SESSION['first'] = $first[vorname];
                     $_SESSION['last'] = $last[nachname];
                     $_SESSION['email'] = $email[email];
-                    $_SESSION['username'] = $uid[username];
+                    $_SESSION['username'] = $username[username];
                     header("Location: ../index.php?login=success");
                     exit();
                 }

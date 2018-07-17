@@ -10,7 +10,7 @@ if(isset($_POST['submit'])) { /*checks if the button 'submit' got clicked*/
     $username = mysqli_real_escape_string($conn, $_POST['username']);
     $pwd = mysqli_real_escape_string($conn, $_POST['password']);
 
-    $location = "Location: ../index.php";
+    $location = "Location: ../signup.php";
 
     //Error handlers
     // Check for empty fields
@@ -38,7 +38,7 @@ if(isset($_POST['submit'])) { /*checks if the button 'submit' got clicked*/
                        $sql = "INSERT INTO users (vorname, nachname, email, username, password) VALUES ('$first', '$last', '$email', '$username', '$hashedPwd');";
                        // run the query on the database
                        mysqli_query($conn, $sql);
-                       $location .= "?signup=success";
+                       $location = "Location: ../index.php?signup=success";
                    }
             }
         }
