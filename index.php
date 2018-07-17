@@ -8,6 +8,21 @@
 <section class="main-container">
     <div class="main-wrapper">
         <h2>Signup</h2>
+
+        <?php
+        if(isset($_GET['signup']) && $_GET['signup'] == 'empty')
+        {
+            ?>
+            <h1 style="color:red;">Please fill out the missing fields</h1>
+            <?php
+        } else if(isset($_GET['signup']) && $_GET['signup'] == 'usertaken')
+        {
+            ?>
+            <h1 style="color:red;">The username is already taken</h1>
+            <?php
+        }
+        ?>
+
         <form class="signup-form" action="includes/signup.inc.php" method="POST">
             <input type="text" name="first" placeholder="Firstname">
             <input type="text" name="last" placeholder="Lastname">

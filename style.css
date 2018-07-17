@@ -208,6 +208,12 @@ header .nav-login a {
     text-align: center;
 }
 
+.main-container h1 {
+    font-family: arial;
+    font-size: 16px;
+    color: #FF0000;
+}
+
 /* signup.php */
 
 .signup-form {

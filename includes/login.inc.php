@@ -7,7 +7,7 @@ if(isset($_POST['submit'])) {
     include 'dbh.inc.php';
 
     $uid = mysqli_real_escape_string($conn, $_POST['username']);
-    $pwd = mysqli_real_escape_string($conn, $_POST['pwd']);
+    $pwd = mysqli_real_escape_string($conn, $_POST['password']);
 
     // Error handlers
     // Check if inputs are empty
@@ -32,10 +32,10 @@ if(isset($_POST['submit'])) {
                 } elseif($hashedPwdCheck == true) {
                     // Log in the user here
                     $_SESSION['id'] = $row[id];
-                    $_SESSION['first'] = $first[user_first];
-                    $_SESSION['last'] = $last[user_last];
-                    $_SESSION['email'] = $email[user_email];
-                    $_SESSION['uid'] = $uid[user_uid];
+                    $_SESSION['first'] = $first[vorname];
+                    $_SESSION['last'] = $last[nachname];
+                    $_SESSION['email'] = $email[email];
+                    $_SESSION['username'] = $uid[username];
                     header("Location: ../index.php?login=success");
                     exit();
                 }
