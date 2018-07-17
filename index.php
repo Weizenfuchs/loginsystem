@@ -1,16 +1,8 @@
 <?php
-
+    require_once 'header.php';
     require_once ".\library\autoloader.php";
     $loader = new autoloader();
-
     set_include_path(".\includes;.\library");
-
-    $user = new User();
-    echo("<br>" . $user->getName() . "<br>");
-    $test = new Test();
-    die("<br> Ende...");
-
-    include_once 'header.php';
 ?>
 
 <section class="main-container">
@@ -28,5 +20,5 @@
 </section>
 
 <?php
-    include_once 'footer.php';
+    require_once 'footer.php';
 ?>

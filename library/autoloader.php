@@ -24,5 +24,6 @@ class Autoloader {
 }
 
 // USE:
-// require_once 'includes/autoloader.php';
-// set_include_path(".\includes;.\library");
+//require_once ".\library\autoloader.php";
+//$loader = new autoloader();
+//set_include_path(".\includes;.\library");

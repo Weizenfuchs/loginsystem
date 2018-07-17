@@ -6,7 +6,7 @@ session_start();
 if(isset($_POST['submit'])) {
     include 'dbh.inc.php';
 
-    $uid = mysqli_real_escape_string($conn, $_POST['uid']);
+    $uid = mysqli_real_escape_string($conn, $_POST['username']);
     $pwd = mysqli_real_escape_string($conn, $_POST['pwd']);
 
     // Error handlers
@@ -25,17 +25,17 @@ if(isset($_POST['submit'])) {
         } else {
             if($row = mysqli_fetch_assoc($result)) { // Data gets inserted into row
                 // De-hashing the password
-                $hashedPwdCheck = password_verify($pwd, $row['user_pwd']); // checking if pwd is in db
+                $hashedPwdCheck = password_verify($pwd, $row['password']); // checking if pwd is in db
                 if($hashedPwdCheck == false) {
                     header("Location: ../index.php?login=error");
                     exit();
                 } elseif($hashedPwdCheck == true) {
                     // Log in the user here
-                    $_SESSION['u_id'] = $row[user_id];
-                    $_SESSION['u_first'] = $first[user_first];
-                    $_SESSION['u_last'] = $last[user_last];
-                    $_SESSION['u_email'] = $email[user_email];
-                    $_SESSION['u_uid'] = $uid[user_uid];
+                    $_SESSION['id'] = $row[id];
+                    $_SESSION['first'] = $first[user_first];
+                    $_SESSION['last'] = $last[user_last];
+                    $_SESSION['email'] = $email[user_email];
+                    $_SESSION['uid'] = $uid[user_uid];
                     header("Location: ../index.php?login=success");
                     exit();
                 }
