@@ -4,7 +4,7 @@
 session_start();
 
 if(isset($_POST['submit'])) {
-    include 'dbh.inc.php';
+    include 'database.php';
 
     $username = mysqli_real_escape_string($conn, $_POST['username']);
     $password = mysqli_real_escape_string($conn, $_POST['password']);
@@ -15,16 +15,15 @@ if(isset($_POST['submit'])) {
         header("Location: ../index.php?login=empty");
         exit();
     } else {
+        $user = new User();
+        $user = $user->load($username, $password);
         // check if username exists in database
-        $sql = "SELECT * FROM users WHERE username='$username'";
-        $result = mysqli_query($conn, $sql);
-        $resultCheck = mysqli_num_rows($result);
-        if($resultCheck < 1) { // = no results
+        if($user == null) {
             header("Location: ../index.php?login=error");
             exit();
         } else {
             if($row = mysqli_fetch_assoc($result)) { // Data gets inserted into row
-                // De-hashing the password
+                // verifying the hashed password
                 $hashedPwdCheck = password_verify($password, $row['password']); // checking if password is in db
                 if($hashedPwdCheck == false) {
                     header("Location: ../index.php?login=error");

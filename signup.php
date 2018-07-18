@@ -1,6 +1,6 @@
 <?php
     require_once 'header.php';
-//    require_once "..\library\autoloader.php";
+//    require_once "..\library\Autoloader.php";
 //    $loader = new autoloader();
 //    set_include_path(".\includes;.\library");
 ?>

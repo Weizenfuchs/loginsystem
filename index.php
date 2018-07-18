@@ -1,8 +1,16 @@
 <?php
+//    require_once ".\library\Autoloader.php";
+//    $loader = Autoloader::getInstance();
+//    set_include_path(".\includes;.\library;");
+
+
     require_once 'header.php';
-    require_once ".\library\autoloader.php";
-    $loader = new autoloader();
-    set_include_path(".\includes;.\library");
+    require_once './library/Autoloader.php';
+    $autoloader = Autoloader::getInstance();
+    spl_autoload_register(array('Autoloader', 'autoload'));
+    set_include_path('./library/' . PATH_SEPARATOR . get_include_path());
+
+
 ?>
 
 <section class="main-container">
