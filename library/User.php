@@ -20,8 +20,20 @@ class User
         $this->database = new Database();
     }
 
+    public function signup() {
+        die("piss");
+        $first = mysqli_real_escape_string(Database::getConnection(), $_POST['first']); /*first input in the signup form*/
+        $last = mysqli_real_escape_string(Database::getConnection(), $_POST['last']);
+        $email = mysqli_real_escape_string(Database::getConnection(), $_POST['email']);
+        $username = mysqli_real_escape_string(Database::getConnection(), $_POST['username']);
+        $password = mysqli_real_escape_string(Database::getConnection(), $_POST['password']);
+
+        $this->create($first, $last, $email, $username, $password);
+        die("test_______test");
+    }
+
     /** REGISTER */
-    public function create($first, $last, $email, $username, $password) {
+    private function create($first, $last, $email, $username, $password) {
         // check for existing username
         if($this->exists($username)) {
             // if username is already taken return false
@@ -82,10 +94,6 @@ class User
         } else {
             return false;
         }
-
-    }
-
-    public function isLoggedIn() {
 
     }
 

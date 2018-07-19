@@ -20,5 +20,4 @@ Class Database {
     function closeConnection() {
         mysqli_close($this->conn);
     }
-
 }

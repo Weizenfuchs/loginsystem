@@ -40,12 +40,10 @@ class Autoloader
      * @final
      */
     public static function autoload($class_name) {
-        echo("test");
 
         foreach(explode(PATH_SEPARATOR, get_include_path()) as $dir) {
 
             $paths = explode(PATH_SEPARATOR, $class_name);
-
             $file = $dir;
 
             for($i = 0; $i < (count($paths) - 1); $i++) {
