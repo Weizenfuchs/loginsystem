@@ -5,53 +5,64 @@
  * Date: 2018-07-19
  * Time: 14:35
  */
+// starting the session
+if(!isset($_SESSION))
+{
+    session_start();
+    echo(session_id());
+}
 
 class ApplicationController {
     function __construct() {
-        $requestUrl = $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
-        $urlParams = explode('/', $requestUrl);
 
-        $class = null;
-        $method = null;
+        if(!User::isLoggedIn(session_id())) {
+            $model = new HeaderModel();
 
-        if(count($urlParams) > 1 && $urlParams[1]) { $class = $urlParams[1]; }
-        if(count($urlParams) > 2 && $urlParams[2]) { $method = strtolower($urlParams[2]); }
-
-        $defaultController = 'Home';
-        $defaultMethod = 'init';
-
-        /**
-         * Controller
-         */
-        if(isset($class) && class_exists($class . 'Controller')) {
-            $class = ucfirst($class) . 'Controller';
+            $controller = new HeaderController($model);
+            $controller->showLogin();
         } else {
-            $class = $defaultController . 'Controller';
-        }
+            $requestUrl = $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+            $urlParams = explode('/', $requestUrl);
 
-        // TODO: test
-//        echo ($class . " <----class , method-----> " . $method);
+            $class = null;
+            $method = null;
 
-        $class =  new $class();
+            if(count($urlParams) > 1 && $urlParams[1]) { $class = $urlParams[1]; }
+            if(count($urlParams) > 2 && $urlParams[2]) { $method = strtolower($urlParams[2]); }
 
-        /**
-         * Method
-         */
-        if(is_object($class)) {
+            $defaultController = 'Home';
+            $defaultMethod = 'init';
+
             /**
-             * Suche nach einer angegebenen gewollten Methode
+             * DomainController
              */
-            if(method_exists($class, $method)) {
-                $class->$method();
+            if(isset($class) && class_exists($class . 'DomainController')) {
+                $class = ucfirst($class) . 'ADomainController';
             } else {
+                $class = $defaultController . 'ADomainController';
+            }
+
+            $class =  new $class();
+
+            /**
+             * Method
+             */
+            if(is_object($class)) {
                 /**
-                 * Suche nach der init Methode da keine angegeben wurde bzw. die angegebene nicht existiert
+                 * Suche nach einer angegebenen gewollten Methode
                  */
-                echo ("loading default page");
-                if(method_exists($class, $defaultMethod)) {
-                    $class->$defaultMethod();
+                if(method_exists($class, $method)) {
+                    $class->$method();
                 } else {
-                    die('DU HAST PECH GEHABT!!!');
+                    /**
+                     * Suche nach der init Methode da keine angegeben wurde bzw. die angegebene nicht existiert
+                     */
+                    echo ("loading default page");
+                    if(method_exists($class, $defaultMethod)) {
+                        $class->$defaultMethod();
+                    } else {
+                        die('DU HAST PECH GEHABT!!!');
+                    }
                 }
             }
         }

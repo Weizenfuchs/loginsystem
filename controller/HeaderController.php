@@ -2,10 +2,11 @@
 /**
  * Created by PhpStorm.
  * User: j.fuchs
- * Date: 2018-07-19
- * Time: 13:06
+ * Date: 2018-07-20
+ * Time: 15:21
  */
-class HomeController extends A_DomainController {
+
+class HeaderController extends A_DomainController {
     private $model;
     private $loggedIn = false; // user is logged in
     private $signedUp = false; // user is signed up
@@ -14,9 +15,13 @@ class HomeController extends A_DomainController {
     private $user;
 
 
-    public function __construct($model, $user) {
+    public function __construct($model, $user = null) {
         $this->model = $model;
-        $this->user = $user;
+        if (is_null($user)) {
+            $this->showLogin();
+        } else {
+            $this->user = $user;
+        }
     }
 
     function message() {
@@ -32,5 +37,10 @@ class HomeController extends A_DomainController {
         }
 
         $this->model->showMessage();
+        //        die('HERE COMES THE INIT!!!');
+    }
+
+    function showLogin() {
+        $this->model->showLogin();
     }
 }

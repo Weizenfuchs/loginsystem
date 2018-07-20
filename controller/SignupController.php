@@ -12,6 +12,6 @@ class SignupController
     }
 
     function init() {
-        include("signupView.php");
+
     }
 }

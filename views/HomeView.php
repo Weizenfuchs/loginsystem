@@ -6,6 +6,20 @@
  * Time: 15:28
  */
 
+Class HomeView {
+    private $model;
+
+    public function __construct($model) {
+        $this->model = $model;
+    }
+
+    public function output() {
+        return $this->model->displayMessage;
+    }
+}
+
+
+/*
 ?>
     <section class="main-container">
         <div class="main-wrapper">
@@ -35,3 +49,4 @@
         </div>
     </section>
 <?php
+*/

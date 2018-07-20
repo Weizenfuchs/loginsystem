@@ -1,3 +1,8 @@
+<?php
+require_once "HeaderView.php";
+
+//$oSignupController = new SignupController();
+?>
 <section class="main-container">
     <div class="main-wrapper">
         <h2>Signup</h2>
@@ -36,3 +41,6 @@
         </form>
     </div>
 </section>
+<?php
+require_once "FooterView.php";
+?>

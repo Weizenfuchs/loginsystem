@@ -5,15 +5,21 @@
  * Date: 2018-07-18
  * Time: 08:51
  */
-
 class User
 {
     private $first;
     private $last;
     private $email;
     private $username;
-    private $sessionId;
+    private $sessionID;
+
+    private $loggedIn;
+    private $signedUp;
+
     private $database;
+
+    private $homeModel;
+    private $homeController;
 
     public function __construct()
     {
@@ -21,23 +27,28 @@ class User
     }
 
     public function signup() {
-        die("piss");
         $first = mysqli_real_escape_string(Database::getConnection(), $_POST['first']); /*first input in the signup form*/
         $last = mysqli_real_escape_string(Database::getConnection(), $_POST['last']);
         $email = mysqli_real_escape_string(Database::getConnection(), $_POST['email']);
         $username = mysqli_real_escape_string(Database::getConnection(), $_POST['username']);
         $password = mysqli_real_escape_string(Database::getConnection(), $_POST['password']);
+        $sessionID = session_id();
 
         $this->create($first, $last, $email, $username, $password);
-        die("test_______test");
+        // Updating the View over the DomainController
+        $this->homeModel = new HomeModel();
+        $this->homeController = new HomeController($this->homeModel, $this);
     }
 
-    /** REGISTER */
+    /** REGISTER
+     *
+     */
     private function create($first, $last, $email, $username, $password) {
         // check for existing username
         if($this->exists($username)) {
             // if username is already taken return false
-            return false;
+            $this->__set("signedUp", false);
+            return $this->__get("signedUp");
         } else {
             /** TODO: Check for better place for these lines of code */
             $this->__set("first", $first);
@@ -52,7 +63,8 @@ class User
             // run the query on the database
             mysqli_query($this->database->getConnection(), $sql);
             // successfully creating the user in the database will return true
-            return true;
+            $this->__set("signedUp", true);
+            return $this->__get("signedUp");
         }
     }
 
@@ -76,11 +88,28 @@ class User
                 $this->__set("last", $result->fetch_row("nachname"));
                 $this->__set("email", $result->fetch_row("email"));
                 $this->__set("username", $result->fetch_row("username"));
+                $this->__set("loggedIn", true);
 
-                return $this;
+                // setting the session id
+                $this->__set("sessionID", session_id());
+
+                // writing the session id into the database
+                $this->updateSessionID($this->__get("sessionID"), $username);
+
+                // setting session variables
+                $_SESSION["Username"] = $this->__get("username");
+
+                // updating the View over the DomainController
+                $this->homeModel = new HomeModel();
+                $this->homeController = new HomeController($this->homeModel, $this);
+
+                return $this->__get("loggedIn");
             }
         } else {
-            return null;
+            $this->__set("loggedIn", false);
+            $this->homeModel = new HomeModel();
+            $this->homeController = new HomeController($this->homeModel, $this);
+            return $this->__get("loggedIn");
         }
     }
 
@@ -95,6 +124,26 @@ class User
             return false;
         }
 
+    }
+
+    function updateSessionID($session_id, $username) {
+        $sql = "UPDATE users SET session_id = '$session_id' FROM users WHERE username='$username'";
+        mysqli_query($this->database->getConnection(), $sql);
+    }
+
+    public static function isLoggedIn($session_id) {
+        if(isset($session_id) && isset($_SESSION["Username"])) {
+            $sql = "SELECT session_id FROM users WHERE username='$_SESSION\['Username'\]'";
+            $result = mysqli_query(Database::getConnection(), $sql);
+            $resultCheck = mysqli_num_rows($result);
+            // if username already exists in database return true
+            if($resultCheck > 0) {
+                if ($result[1] == $session_id)
+                return true;
+            } else {
+                return false;
+            }
+        }
     }
 
     public function __get($prop) {
