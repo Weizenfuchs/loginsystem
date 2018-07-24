@@ -1,3 +1,5 @@
+<html>
+<body>
 <?php
 /**
  * Created by PhpStorm.
@@ -8,9 +10,11 @@
 
 Class FooterView {
     private $model;
+    private $controller;
 
-    public function __construct($model) {
+    public function __construct($model, $controller) {
         $this->model = $model;
+        $this->controller = $controller;
     }
 
     public function output() {
@@ -20,4 +24,3 @@ Class FooterView {
 ?>
 </body>
 </html>
-

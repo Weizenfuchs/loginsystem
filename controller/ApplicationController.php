@@ -9,17 +9,23 @@
 if(!isset($_SESSION))
 {
     session_start();
-    echo(session_id());
 }
 
 class ApplicationController {
     function __construct() {
-
         if(!User::isLoggedIn(session_id())) {
-            $model = new HeaderModel();
+            $modelHeader = new HeaderModel();
+            $modelHome = new HomeModel();
+            $modelFooter = new FooterModel();
 
-            $controller = new HeaderController($model);
-            $controller->showLogin();
+            $controllerHeader = new HeaderController($modelHeader);
+            $controllerHome = new HomeController($modelHome);
+            $controllerFooter = new FooterController($modelFooter);
+
+            new HeaderView($modelHeader, $controllerHeader);
+            new FooterView($modelFooter, $controllerFooter);
+            new HomeView($modelHome, $controllerHome);
+
         } else {
             $requestUrl = $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
             $urlParams = explode('/', $requestUrl);
@@ -37,9 +43,9 @@ class ApplicationController {
              * DomainController
              */
             if(isset($class) && class_exists($class . 'DomainController')) {
-                $class = ucfirst($class) . 'ADomainController';
+                $class = ucfirst($class) . 'DomainController';
             } else {
-                $class = $defaultController . 'ADomainController';
+                $class = $defaultController . 'DomainController';
             }
 
             $class =  new $class();

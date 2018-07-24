@@ -1,21 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-    <link rel="stylesheet" type="text/css" href="../assets/css/style.css">
-</head>
-<body>
-
-<header>
-    <nav>
-        <div class="main-wrapper">
-            <ul>
-                <li>
-                    <a href="/Home/init">Home</a>
-                </li>
-            </ul>
-            <div class="nav-login">
 <?php
 /**
  * Created by PhpStorm.
@@ -24,32 +6,18 @@
  * Time: 15:28
  */
 
-Class HomeView {
+Class HeaderView {
     private $model;
+    private $controller;
 
-    public function __construct($model) {
+    public function __construct($model, $controller) {
         $this->model = $model;
+        $this->controller = $controller;
+        $this->output();
     }
 
-    public function showLogin() {
-        if($loggedIn) {
-            ?>
-            <a href="../controller/logout.inc.php">Logout</a>
-            <?php
-        } else {
-            ?>
-            <form action="/User/login" method="POST">
-                <input type="text" name="username" placeholder="Username/e-mail">
-                <input type="password" name="password" placeholder="password">
-                <button type="submit" name="submit">Login</button>
-            </form>
-            <a href="/Signup/init">Sign up</a>
-            <?php
-        }
+    public function output() {
+        return $this->model->displayMessage;
     }
 }
 ?>
-            </div>
-        </div>
-    </nav>
-</header>

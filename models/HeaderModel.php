@@ -17,10 +17,31 @@ Class HeaderModel extends A_Model
     }
 
     public function showMessage() {
-
+        $html = "<!DOCTYPE html>";
+        $html .="<html>";
+        $html .="<head>";
+        $html .="<meta charset='UTF-8'>";
+        $html .="<title>Login</title>";
+        $html .="<link rel='stylesheet' type='text/css' href='../assets/css/style.css'>";
+        $html .="</head>";
+        $html .="<body>";
+        $html .="<header>";
+        $html .="<nav>";
+        $html .="<div class='main-wrapper''>";
+            <ul>
+                <li>
+                    <a href="/Home/init">Home</a>
+                </li>
+            </ul>
+            <div class="nav-login">
     }
 
     public function showLogin() {
 
     }
 }
+?>
+            </div>
+        </div>
+    </nav>
+</header>

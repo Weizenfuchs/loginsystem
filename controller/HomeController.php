@@ -14,9 +14,13 @@ class HomeController extends A_DomainController {
     private $user;
 
 
-    public function __construct($model, $user) {
+    public function __construct($model, $user = null) {
         $this->model = $model;
-        $this->user = $user;
+        if (is_null($user)) {
+            $this->loggedIn = false;
+        } else {
+            $this->user = $user;
+        }
     }
 
     function message() {

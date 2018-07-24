@@ -143,6 +143,8 @@ class User
             } else {
                 return false;
             }
+        } else {
+            return false;
         }
     }
 
